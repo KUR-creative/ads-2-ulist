@@ -1,0 +1,24 @@
+#ifndef _ULIST_H_
+#define _ULIST_H_
+
+#define SUCCESS (0)
+#define FAILURE (1)
+#define NONE    (-1)
+
+typedef int Item;
+#define NONE_ITEM NONE
+
+// singly linked list
+typedef struct ULNode {
+    int top; // 
+    int max;
+    struct ULNode* next;
+    Item items[1]; 
+} ULNode;
+
+int init_list(ULNode* lst);
+int is_empty(ULNode* lst);
+int insert(ULNode* lst, int pos, Item item);
+int remove(ULNode* lst, int pos);
+
+#endif //_ULIST_H_
