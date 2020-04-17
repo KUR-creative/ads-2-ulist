@@ -10,7 +10,11 @@ int print_node(ULNode* node, int all)
     printf("arr[ ");
     int beg = (all ? 0 : node->front + 1);
     for(int i = beg; i < node->back; i++){
-        printf("%d ", node->items[i]);
+        if(all && i <= node->front){
+            printf("x ");
+        }else{
+            printf("%d ", node->items[i]);
+        }
     }
     printf("] next:%p \n", node->next);
 }
@@ -41,16 +45,27 @@ int insert(ULNode** lst, int pos, Item item)
 {
     //print_node(*lst, TRUE);
     if(pos == 0){
-        if((*lst)->front == -1){
-            ULNode* tmp = *lst;
-            new_node(lst, tmp->max, tmp);
-            add_back(*lst, item);
-        }
+        ULNode* tmp = *lst;
+        new_node(lst, tmp->max, tmp);
+        return add_front(*lst, item);
     }
     else if(pos == -1){
-        add_back(*lst, item);
-        return SUCCESS;
+        ULNode* tail = *lst;
+        while(tail->next){
+            tail = tail->next;
+        }
+
+        if(tail->back == tail->max){
+            ULNode* new_tail;
+            new_node(&new_tail, tail->max, NULL);
+            tail->next = new_tail;
+            return add_back(new_tail, item);
+        }else{
+            return add_back(tail, item);
+        }
     }
+
+    // TODO: if pos is not 0 nor -1?
 }
 
 int remove(ULNode** lst, int pos, Item* removed)
@@ -86,7 +101,7 @@ int get(ULNode* lst, int pos, Item* accessed)
         //printf("after  pos[%d] num_elem[%d] node[%p] next[%p] chk[%d]\n", pos, num_elem, node, node->next, chk);
     }
 
-    *accessed = node->items[idx];
+    *accessed = node->items[idx + node->front + 1];
     return SUCCESS;
 }
 
@@ -94,8 +109,9 @@ static int new_node(ULNode** pnode, int max, ULNode* next)
 {
     *pnode = (ULNode*)malloc(
         sizeof(ULNode) + sizeof(Item) * max);
-    (*pnode)->front = -1;
-    (*pnode)->back = 0;
+    int mid = max / 2;
+    (*pnode)->front = mid - 1;
+    (*pnode)->back = mid;
     (*pnode)->max = max;
     (*pnode)->next = next;
     return SUCCESS;
@@ -105,6 +121,16 @@ static int add_back(ULNode* node, Item item)
 {
     if(node->back < node->max){
         node->items[node->back++] = item;
+        return SUCCESS;
+    }
+    // check items overflow
+    return FAILURE;
+}
+
+static int add_front(ULNode* node, Item item)
+{
+    if(-1 < node->front){
+        node->items[node->front--] = item;
         return SUCCESS;
     }
     // check items overflow

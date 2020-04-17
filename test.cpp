@@ -15,7 +15,8 @@ TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
     ASSERT_TRUE(is_empty(root));
 
     Item item = 42;
-    insert(&root, 0, item);
+    int ret = insert(&root, 0, item);
+    printf("ret: %d \n", ret);
     ASSERT_FALSE(is_empty(root));
     print_node(root, FALSE);
 }
@@ -32,15 +33,11 @@ TEST(is_empty, back_is_not_0_but_empty){
     ULNode* lst; init_list(&lst, node_size);
 
     insert(&lst, -1, 0); 
-    print_list(lst, FALSE);
     insert(&lst, -1, 1);
-    print_list(lst, FALSE);
     ASSERT_FALSE(is_empty(lst));
 
     remove(&lst, 0, NULL); 
-    print_list(lst, FALSE);
     remove(&lst, 0, NULL);
-    print_list(lst, FALSE);
     ASSERT_TRUE(is_empty(lst));
 }
 
@@ -62,20 +59,36 @@ TEST(insert, front_from_zero){
 }
 
 TEST(insert, back_from_zero){
-    int node_size = 6;
+    int node_size = 8;
     ULNode* lst; init_list(&lst, node_size);
 
     // insert front
-                    //puts("--------");  print_list(lst, FALSE);
     for(int i = 0; i < 4; i++){ 
         insert(&lst, -1, i);
-                    //printf("----%d----\n", i); print_list(lst, FALSE);
     }
+
     Item accessed; 
-    get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);
-    get(lst, 1, &accessed); ASSERT_EQ(accessed, 1);
-    get(lst, 2, &accessed); ASSERT_EQ(accessed, 2);
-    get(lst, 3, &accessed); ASSERT_EQ(accessed, 3);
+    for(int i = 0; i < 4; i++){ 
+        get(lst, i, &accessed); ASSERT_EQ(accessed, i);
+    }
+}
+
+TEST(insert, back_more_than_1node_max_capacity_when_next_is_nil){
+    int node_size = 8;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert front
+    for(int i = 0; i < 10; i++){ 
+        //printf("b %d: ",i); print_list(lst, TRUE);
+        insert(&lst, -1, i);
+        printf("----a %d---- \n",i); 
+        print_list(lst, TRUE);
+    }
+
+    Item accessed; 
+    for(int i = 0; i < 10; i++){ 
+        get(lst, i, &accessed); ASSERT_EQ(accessed, i);
+    }
 }
 
 TEST(get, 3_2_list){

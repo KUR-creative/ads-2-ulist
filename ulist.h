@@ -34,5 +34,6 @@ int print_list(ULNode* lst, int all);
 
 static int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
+static int add_front(ULNode* node, Item item);
 
 #endif //_ULIST_H_
