@@ -20,8 +20,10 @@ typedef struct ULNode {
 } ULNode;
 
 int init_list(ULNode** lst, int node_size);
-int is_empty(ULNode** lst);
 int insert(ULNode** lst, int pos, Item item);
-int remove(ULNode** lst, int pos);
+int remove(ULNode** lst, int pos, Item* removed);
+
+int is_empty(ULNode* lst);
+int get(ULNode* lst, int pos, Item* accessed);
 
 #endif //_ULIST_H_

@@ -10,14 +10,13 @@ printf("[%p]\n", *lst);
 */
 
 TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
-    ULNode* root = NULL; 
     int node_size = 10;
-    init_list(&root, node_size);
-    ASSERT_TRUE(is_empty(&root));
+    ULNode* root; init_list(&root, node_size);
+    ASSERT_TRUE(is_empty(root));
 
     Item item = 42;
     insert(&root, 0, item);
-    ASSERT_FALSE(is_empty(&root));
+    ASSERT_FALSE(is_empty(root));
 }
 
 /*

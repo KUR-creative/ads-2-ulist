@@ -13,10 +13,9 @@ int init_list(ULNode** lst, int node_size)
     return SUCCESS;
 }
 
-int is_empty(ULNode** lst)
+int is_empty(ULNode* lst)
 {
-    ULNode* root = *lst;
-    return (root->next == NULL && root->top == 0);
+    return (lst->next == NULL && lst->top == 0);
 }
 
 int insert(ULNode** lst, int pos, Item item)
