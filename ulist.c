@@ -4,6 +4,7 @@
 
 int print_node(ULNode* node)
 {
+    printf("%p: ", node);
     printf("front[%d] back[%d] max[%d] ", 
         node->front, node->back, node-> max);
     printf("arr[ ");
@@ -50,13 +51,21 @@ int insert(ULNode** lst, int pos, Item item)
 
 int get(ULNode* lst, int pos, Item* accessed)
 {
-    int cursor = 0;
+    // NOTE: pos is index, begin from 0!
     int idx = 0;
     ULNode* node = lst;
-    while(cursor != pos){
+    while(pos != 0){
         int num_elem = node->back - node->front - 1;
-        cursor += num_elem;
-        node = node->next;
+        int chk = pos - num_elem;
+        //printf("before pos[%d] num_elem[%d] node[%p] next[%p] chk[%d]\n", pos, num_elem, node, node->next, chk);
+        if(chk >= 0){
+            node = node->next;
+            pos = chk; // = 0 then break
+        }else{
+            idx = pos;
+            pos = 0;
+        }
+        //printf("after  pos[%d] num_elem[%d] node[%p] next[%p] chk[%d]\n", pos, num_elem, node, node->next, chk);
     }
 
     *accessed = node->items[idx];
@@ -68,8 +77,7 @@ int remove(ULNode** lst, int pos, Item* removed)
     return SUCCESS;
 }
 
-static int new_node(
-    ULNode** pnode, int max, ULNode* next)
+int new_node(ULNode** pnode, int max, ULNode* next)
 {
     *pnode = (ULNode*)malloc(
         sizeof(ULNode) + sizeof(Item) * max);
@@ -89,61 +97,3 @@ static int add_back(ULNode* node, Item item)
     // check items overflow
     return FAILURE;
 }
-
-
-/* 
-void print_item(const Item* item)
-{
-    //printf("%d,%d", item->x, item->y);
-    printf("%d", *item);
-}
-
-int cbuf_init(CirBuf* cbuf, size_t buf_size)
-{
-    cbuf->cbuf = (Item*)malloc(buf_size * sizeof(Item));
-    if(cbuf->cbuf == NULL){
-        return FAILURE;
-    }
-    cbuf->buf_size = buf_size;
-    cbuf->head = cbuf->tail = 0;
-    return SUCCESS;
-}
-
-int cbuf_deinit(CirBuf* cbuf)
-{
-    free(cbuf->cbuf);
-    return SUCCESS;
-}
-
-int cbuf_empty(CirBuf* cbuf)
-{
-    return cbuf->head == cbuf->tail;
-}
-
-int cbuf_full(CirBuf* cbuf)
-{
-    return cbuf->head == (cbuf->tail + 1) % cbuf->buf_size;
-}
-
-int cbuf_push(CirBuf* cbuf, Item item)
-{
-    if(cbuf_full(cbuf)){
-        return FAILURE;
-    }else{
-        cbuf->cbuf[cbuf->tail] = item;
-        cbuf->tail = (cbuf->tail + 1) % cbuf->buf_size;
-        return SUCCESS;
-    }
-}
-
-Item cbuf_pop(CirBuf* cbuf)
-{
-    if(cbuf_empty(cbuf)){
-        return NONE_ITEM;
-    }else{
-        Item ret = cbuf->cbuf[cbuf->head];
-        cbuf->head = (cbuf->head + 1) % cbuf->buf_size;
-        return ret;
-    }
-}
-*/

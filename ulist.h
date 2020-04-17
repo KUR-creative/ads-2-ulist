@@ -32,7 +32,7 @@ int get(ULNode* lst, int pos, Item* accessed);
 int print_node(ULNode* node);
 int print_list(ULNode* lst);
 
-static int new_node(ULNode** pnode, int max, ULNode* next);
+int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
 
 #endif //_ULIST_H_

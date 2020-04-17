@@ -32,12 +32,12 @@ TEST(is_empty, DISABLED_back_is_not_0_but_empty){
 }
 
 TEST(insert, front_from_zero){
-    int node_size = 4;
+    int node_size = 6;
     ULNode* lst; init_list(&lst, node_size);
 
+    // insert front
                     puts("--------");
                     print_list(lst);
-    // insert front
     for(int i = 0; i < 4; i++){ 
         insert(&lst, 0, i); 
                     printf("----%d----\n", i);
@@ -45,22 +45,52 @@ TEST(insert, front_from_zero){
     }
     Item accessed; 
     get(lst, 0, &accessed); ASSERT_EQ(accessed, 3);
-    //get(lst, 1, &accessed); ASSERT_EQ(accessed, 2);
-    //get(lst, 2, &accessed); ASSERT_EQ(accessed, 1);
-    //get(lst, 3, &accessed); ASSERT_EQ(accessed, 0);
+    get(lst, 1, &accessed); ASSERT_EQ(accessed, 2);
+    get(lst, 2, &accessed); ASSERT_EQ(accessed, 1);
+    get(lst, 3, &accessed); ASSERT_EQ(accessed, 0);
 }
 
 TEST(insert, back_from_zero){
-    int node_size = 4;
+    int node_size = 6;
     ULNode* lst; init_list(&lst, node_size);
 
     // insert front
-    for(int i = 0; i < 4; i++){ insert(&lst, -1, i); }
+                    puts("--------");
+                    print_list(lst);
+    for(int i = 0; i < 4; i++){ 
+        insert(&lst, -1, i);
+                    printf("----%d----\n", i);
+                    print_list(lst);
+    }
     Item accessed; 
     get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);
-    //get(lst, 1, &accessed); ASSERT_EQ(accessed, 1);
-    //get(lst, 2, &accessed); ASSERT_EQ(accessed, 2);
-    //get(lst, 3, &accessed); ASSERT_EQ(accessed, 3);
+    get(lst, 1, &accessed); ASSERT_EQ(accessed, 1);
+    get(lst, 2, &accessed); ASSERT_EQ(accessed, 2);
+    get(lst, 3, &accessed); ASSERT_EQ(accessed, 3);
+}
+
+TEST(get, 3_2_list){
+    int node_size = 5;
+    ULNode* lst; init_list(&lst, node_size);
+    ULNode* lst2; init_list(&lst2, node_size);
+    // 3
+    insert(&lst, -1, 0);
+    insert(&lst, -1, 1);
+    insert(&lst, -1, 2);
+    // 2
+    insert(&lst2, -1, 3);
+    insert(&lst2, -1, 4);
+    // link
+    lst->next = lst2;
+    print_list(lst);
+
+    Item accessed; 
+    get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);
+    get(lst, 1, &accessed); ASSERT_EQ(accessed, 1);
+    get(lst, 2, &accessed); ASSERT_EQ(accessed, 2);
+    //puts("-0--0-");
+    get(lst, 3, &accessed); ASSERT_EQ(accessed, 3);
+    get(lst, 4, &accessed); ASSERT_EQ(accessed, 4);
 }
 
 TEST(get, DISABLED_more_than_1_node_size) {
