@@ -196,6 +196,19 @@ TEST(get, DISABLED_incorrect_pos) {
 }
 
 //-------------------------------------------------------------------------------------
+TEST(positive_pos, insert){
+    int node_size = 7;
+    int num_items = 7;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, 0, i);
+    }
+    print_list(lst,TRUE);
+}
+
+//-------------------------------------------------------------------------------------
 TEST(big, DISABLED_insert_front_remove_back){
     int node_size = 100;
     int num_items = 100000;

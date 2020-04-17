@@ -6,12 +6,13 @@ int print_node(ULNode* node, int all)
 {
     printf("%p: ", node);
     printf("front[%d] back[%d] max[%d] ", 
-        node->front, node->back, node-> max);
+        node->front, node->back, node->max);
     printf("arr[ ");
     int beg = (all ? 0 : node->front + 1);
-    for(int i = beg; i < node->back; i++){
-        if(all && i <= node->front){
-            printf("x ");
+    int end = (all ? node->max : node->back);
+    for(int i = beg; i < end; i++){
+        if(all && (i <= node->front || node->back <= i)){
+            printf("_ ");
         }else{
             printf("%d ", node->items[i]);
         }
