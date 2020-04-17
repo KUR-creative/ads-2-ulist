@@ -65,6 +65,12 @@ int insert(ULNode** lst, int pos, Item item)
             return add_back(tail, item);
         }
     }
+    else if(pos > 0){
+    }
+    else{
+        puts("Doesn't support negative pos (except -1)");
+        return FAILURE;
+    }
 
     // TODO: if pos is not 0 nor -1?
 }
@@ -118,6 +124,12 @@ int remove(ULNode** lst, int pos, Item* removed)
             printf("We can't remove from empty node. FATAL ERROR");
             exit(EXIT_FAILURE);
         }
+    }
+    else if(pos > 0){
+    }
+    else{
+        puts("Doesn't support negative pos (except -1)");
+        return FAILURE;
     }
 
     return SUCCESS;
