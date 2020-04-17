@@ -45,9 +45,13 @@ int insert(ULNode** lst, int pos, Item item)
 {
     //print_node(*lst, TRUE);
     if(pos == 0){
-        ULNode* tmp = *lst;
-        new_node(lst, tmp->max, tmp);
-        return add_front(*lst, item);
+        if((*lst)->front == -1){
+            ULNode* tmp = *lst;
+            new_node(lst, tmp->max, tmp);
+            return add_front(*lst, item);
+        }else{
+            return add_front(*lst, item);
+        }
     }
     else if(pos == -1){
         ULNode* tail = *lst;
