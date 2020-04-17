@@ -2,6 +2,15 @@
 #include <stdio.h>
 #include "ulist.h"
 
+int print_node(ULNode* node){
+    printf("top[%d] max[%d] ", node->top, node-> max);
+    printf("arr[");
+    for(int i = 0; i < node->top; i++){
+        printf("%d ", node->items[i]);
+    }
+    printf("\b] next:%p \n", node->next);
+}
+
 int init_list(ULNode** lst, int node_size)
 {
     *lst = (ULNode*)malloc(

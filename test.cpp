@@ -17,6 +17,7 @@ TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
     Item item = 42;
     insert(&root, 0, item);
     ASSERT_FALSE(is_empty(root));
+    print_node(root);
 }
 
 /*
