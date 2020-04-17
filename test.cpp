@@ -196,6 +196,57 @@ TEST(get, DISABLED_incorrect_pos) {
 }
 
 //-------------------------------------------------------------------------------------
+TEST(big, insert_front_remove_back){
+    int node_size = 100;
+    int num_items = 100000;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, 0, i);
+    }
+    Item accessed; 
+    for(int i = 0; i < num_items; i++){ 
+        get(lst, i, &accessed); 
+        ASSERT_EQ(accessed, num_items - 1 - i);
+    }
+    int num_nodes = get_tail(lst, NULL);
+    ASSERT_LT(num_nodes, num_items);
+
+    // delete
+    for(int i = 0; i < num_items; i++){ 
+        Item removed;
+        remove(&lst, -1, &removed);
+        ASSERT_EQ(removed, i);
+    }
+    ASSERT_TRUE(is_empty(lst));
+}
+
+TEST(big, insert_back_remove_front){
+    int node_size = 100;
+    int num_items = 100000;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, -1, i);
+    }
+    Item accessed; 
+    for(int i = 0; i < num_items; i++){ 
+        get(lst, i, &accessed); 
+        ASSERT_EQ(accessed, i);
+    }
+
+    // delete
+    for(int i = 0; i < num_items; i++){ 
+        Item removed;
+        remove(&lst, 0, &removed);
+        ASSERT_EQ(removed, i);
+    }
+    ASSERT_TRUE(is_empty(lst));
+}
+
+//-------------------------------------------------------------------------------------
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest( &argc, argv );
     return RUN_ALL_TESTS();
