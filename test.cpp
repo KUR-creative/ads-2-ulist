@@ -206,6 +206,11 @@ TEST(positive_pos, insert){
         insert(&lst, 0, i);
     }
     print_list(lst,TRUE);
+
+    // decode_pos: fail case
+    ULNode* node = NULL; int idx;
+    ASSERT_EQ(decode_pos(lst, -1, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, -2432, &node, &idx), FAILURE); 
 }
 
 //-------------------------------------------------------------------------------------

@@ -136,10 +136,14 @@ int remove(ULNode** lst, int pos, Item* removed)
     return SUCCESS;
 }
 
-static int decode_pos(ULNode* lst, int pos, 
-                      ULNode** ret_node, int* ret_idx)
+int decode_pos(ULNode* lst, int pos, 
+               ULNode** ret_node, int* ret_idx)
 {
     // NOTE: pos is index, begin from 0!
+    if(pos < 0){
+        return FAILURE;
+    }
+
     int idx = 0;
     ULNode* node = lst;
     while(pos != 0){
@@ -162,8 +166,11 @@ static int decode_pos(ULNode* lst, int pos,
 int get(ULNode* lst, int pos, Item* accessed)
 {
 
-    int idx; ULNode* node = NULL;
-    decode_pos(lst, pos, &node, &idx);
+    ULNode* node = NULL; int idx; 
+    int chk = decode_pos(lst, pos, &node, &idx);
+    if(chk == FAILURE){
+        return FAILURE;
+    }
 
     *accessed = node->items[idx + node->front + 1];
     return SUCCESS;
