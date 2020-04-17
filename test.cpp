@@ -196,7 +196,7 @@ TEST(get, DISABLED_incorrect_pos) {
 }
 
 //-------------------------------------------------------------------------------------
-TEST(positive_pos, insert){
+TEST(decode_pos, fail_cases){
     int node_size = 7;
     int num_items = 7;
     ULNode* lst; init_list(&lst, node_size);
@@ -210,13 +210,31 @@ TEST(positive_pos, insert){
     // decode_pos: fail cases
     //  negative pos
     ULNode* node = NULL; int idx;
-    ASSERT_EQ(decode_pos(lst, -1, &node, &idx), FAILURE); 
-    ASSERT_EQ(decode_pos(lst, -2432, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, -1, NULL, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, -2432, NULL, &node, &idx), FAILURE); 
     //  too big pos
-    ASSERT_EQ(decode_pos(lst, num_items - 1, &node, &idx), SUCCESS); 
-    ASSERT_EQ(decode_pos(lst, num_items, &node, &idx), FAILURE); 
-    ASSERT_EQ(decode_pos(lst, num_items + 1, &node, &idx), FAILURE); 
-    ASSERT_EQ(decode_pos(lst, num_items * 10, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, num_items - 1, NULL, &node, &idx), SUCCESS); 
+    ASSERT_EQ(decode_pos(lst, num_items, NULL, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, num_items + 1, NULL, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, num_items * 10, NULL, &node, &idx), FAILURE); 
+}
+
+TEST(positive_pos, insert){
+    int node_size = 7;
+    int num_items = 7;
+    ULNode* lst; init_list(&lst, node_size);
+
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, 0, i);
+    }
+    print_list(lst,TRUE);
+
+    // insert to empty slot
+    int expected = 99;
+    int pos = 1;
+    insert(&lst, pos, expected);
+    Item accessed; get(lst, pos, &accessed);
+    ASSERT_EQ(accessed, expected);
 }
 
 //-------------------------------------------------------------------------------------

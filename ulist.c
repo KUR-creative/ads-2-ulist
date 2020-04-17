@@ -67,6 +67,12 @@ int insert(ULNode** lst, int pos, Item item)
         }
     }
     else if(pos > 0){
+        // if empty slot
+        ULNode* prev; ULNode* node; int idx;
+        decode_pos((*lst), pos, &prev, &node, &idx);
+        printf("[%d] \n", idx); 
+        print_node(prev, TRUE);print_node(node, TRUE);
+        // else
     }
     else{
         puts("Doesn't support negative pos (except -1)");
@@ -137,7 +143,7 @@ int remove(ULNode** lst, int pos, Item* removed)
 }
 
 int decode_pos(ULNode* lst, int pos, 
-               ULNode** ret_node, int* ret_idx)
+    ULNode** ret_prev, ULNode** ret_node, int* ret_idx)
 {
     // NOTE: pos is index, begin from 0!
     if(pos < 0){
@@ -145,11 +151,13 @@ int decode_pos(ULNode* lst, int pos,
     }
 
     int idx = 0;
+    ULNode* prev = NULL;
     ULNode* node = lst;
     while(pos != 0 && node != NULL){
         int num_elem = node->back - node->front - 1;
         int chk = pos - num_elem;
         if(chk >= 0){
+            prev = node;
             node = node->next;
             pos = chk; // = 0 then break
         }else{
@@ -158,6 +166,7 @@ int decode_pos(ULNode* lst, int pos,
         }
     }
 
+    if(ret_prev){ *ret_prev = prev; }
     *ret_node = node;
     if(ret_idx){ *ret_idx = idx; }
     return node ? SUCCESS : FAILURE;
@@ -167,7 +176,7 @@ int get(ULNode* lst, int pos, Item* accessed)
 {
 
     ULNode* node = NULL; int idx; 
-    int chk = decode_pos(lst, pos, &node, &idx);
+    int chk = decode_pos(lst, pos, NULL, &node, &idx);
     if(chk == FAILURE){
         return FAILURE;
     }

@@ -34,7 +34,7 @@ int print_list(ULNode* lst, int all);
 int get_tail(ULNode* lst, ULNode* tail);
 
 int decode_pos(ULNode* lst, int pos, 
-               ULNode** ret_node, int* ret_idx);
+    ULNode** ret_prev, ULNode** ret_node, int* ret_idx);
 static int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
 static int add_front(ULNode* node, Item item);
