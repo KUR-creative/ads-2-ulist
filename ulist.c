@@ -43,7 +43,6 @@ int is_empty(ULNode* lst)
 
 int insert(ULNode** lst, int pos, Item item)
 {
-    //print_node(*lst, TRUE);
     if(pos == 0){
         if((*lst)->front == -1){
             ULNode* tmp = *lst;
@@ -77,10 +76,11 @@ int remove(ULNode** lst, int pos, Item* removed)
     }
 
     if(pos == 0){
-        int num_elem = (*lst)->back - (*lst)->front - 1;
         if(removed){
             *removed = (*lst)->items[(*lst)->front + 1];
         }
+
+        int num_elem = (*lst)->back - (*lst)->front - 1;
         if(num_elem > 1){
             (*lst)->front += 1;
         }else if(num_elem == 1){
@@ -93,7 +93,33 @@ int remove(ULNode** lst, int pos, Item* removed)
         }
     }
     else if(pos == -1){
+        ULNode* prev = NULL;
+        ULNode* tail = *lst;
+        while(tail->next){ 
+            prev = tail;
+            tail = tail->next; 
+        }
+
+        if(removed){
+            *removed = tail->items[tail->back - 1];
+        }
+
+        int num_elem = tail->back - tail->front - 1;
+        if(num_elem > 1){
+            tail->back -= 1;
+        }else if(num_elem == 1){
+            free(tail);
+            if(prev){ 
+                prev->next = NULL; 
+            }else{
+                *lst = NULL; // empty list
+            }
+        }else{
+            printf("We can't remove from empty node. FATAL ERROR");
+            exit(EXIT_FAILURE);
+        }
     }
+
     return SUCCESS;
 }
 

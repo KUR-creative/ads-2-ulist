@@ -30,11 +30,11 @@ TEST(is_empty, back_is_not_0_but_empty){
     insert(&lst, -1, 1);
     ASSERT_FALSE(is_empty(lst));
 
-    print_list(lst, TRUE);
+    //print_list(lst, TRUE);
     remove(&lst, 0, NULL); 
-    print_list(lst, TRUE);
+    //print_list(lst, TRUE);
     remove(&lst, 0, NULL);
-    print_list(lst, TRUE);
+    //print_list(lst, TRUE);
     ASSERT_TRUE(is_empty(lst));
 }
 
@@ -100,7 +100,7 @@ TEST(insert, front_more_than_1node_max_capacity){
     }
 
     int num_nodes = get_tail(lst, NULL);
-    printf("[%d]", num_nodes);
+    //printf("[%d]", num_nodes);
     ASSERT_LT(num_nodes, num_items);
 }
 
@@ -123,8 +123,26 @@ TEST(remove, front){
     for(int i = 0; i < num_items; i++){ 
         Item removed;
         remove(&lst, 0, &removed);
-                printf("---%d---\n", i);
-                print_list(lst, TRUE);
+                //printf("---%d---\n", i);
+                //print_list(lst, TRUE);
+        ASSERT_EQ(removed, num_items - 1 - i);
+    }
+    ASSERT_TRUE(is_empty(lst));
+}
+
+TEST(remove, back){
+    int node_size = 8;
+    int num_items = 10;
+    ULNode* lst; init_list(&lst, node_size);
+
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, -1, i);
+    }
+    for(int i = 0; i < num_items; i++){ 
+        Item removed;
+        remove(&lst, -1, &removed);
+                //printf("---%d---\n", i);
+                //print_list(lst, TRUE);
         ASSERT_EQ(removed, num_items - 1 - i);
     }
     ASSERT_TRUE(is_empty(lst));
