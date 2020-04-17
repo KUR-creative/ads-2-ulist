@@ -2,6 +2,29 @@
 #include <stdio.h>
 #include "ulist.h"
 
+int init_list(ULNode** lst, int node_size)
+{
+    *lst = (ULNode*)malloc(
+        sizeof(ULNode) + sizeof(Item) * node_size);
+    ULNode* root = *lst;
+    root->top = 0;
+    root->max = node_size;
+    root->next = NULL;
+    return SUCCESS;
+}
+
+int is_empty(ULNode** lst)
+{
+    ULNode* root = *lst;
+    return (root->next == NULL && root->top == 0);
+}
+
+int insert(ULNode** lst, int pos, Item item)
+{
+    ULNode* root = *lst;
+    root->items[root->top++] = item;
+    return SUCCESS;
+}
 /* 
 void print_item(const Item* item)
 {

@@ -1,8 +1,26 @@
-// map <F8> :wa<CR>:!rm test;g++ test.cpp cbuf.c -o test -lgtest;./test<CR>
+// map <F4> :wa<CR>:!clear;rm test;g++ -g test.cpp ulist.c -o test -lgtest;./test<CR>
 
 #include <gtest/gtest.h>
-#include "cbuf.h"
+#include "ulist.h"
 
+/*
+printf("%d %d %p \n", root->top, root->max, root->next);
+printf("[%p]\n", root);
+printf("[%p]\n", *lst);
+*/
+
+TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
+    ULNode* root = NULL; 
+    int node_size = 10;
+    init_list(&root, node_size);
+    ASSERT_TRUE(is_empty(&root));
+
+    Item item = 42;
+    insert(&root, 0, item);
+    ASSERT_FALSE(is_empty(&root));
+}
+
+/*
 TEST(test, print_item) {
     Item xyb = 1;
     print_item(&xyb);
@@ -71,6 +89,7 @@ TEST(cbuf, circular_push) {
     }
     ASSERT_TRUE(cbuf_empty(&cbuf));
 }
+*/
 
 
 //-------------------------------------------------------------------------------------
