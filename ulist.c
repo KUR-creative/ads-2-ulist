@@ -5,19 +5,22 @@
 int print_node(ULNode* node, int all)
 {
     printf("%p: ", node);
-    printf("front[%d] back[%d] max[%d] ", 
-        node->front, node->back, node->max);
-    printf("arr[ ");
-    int beg = (all ? 0 : node->front + 1);
-    int end = (all ? node->max : node->back);
-    for(int i = beg; i < end; i++){
-        if(all && (i <= node->front || node->back <= i)){
-            printf("_ ");
-        }else{
-            printf("%d ", node->items[i]);
+    if(node){
+        printf("front[%d] back[%d] max[%d] ", 
+            node->front, node->back, node->max);
+        printf("arr[ ");
+        int beg = (all ? 0 : node->front + 1);
+        int end = (all ? node->max : node->back);
+        for(int i = beg; i < end; i++){
+            if(all && (i <= node->front || node->back <= i)){
+                printf("_ ");
+            }else{
+                printf("%d ", node->items[i]);
+            }
         }
+        printf("] next:%p \n", node->next);
     }
-    printf("] next:%p \n", node->next);
+    return SUCCESS;
 }
 
 int print_list(ULNode* lst, int all)
