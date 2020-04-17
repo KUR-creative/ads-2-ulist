@@ -146,7 +146,7 @@ int decode_pos(ULNode* lst, int pos,
 
     int idx = 0;
     ULNode* node = lst;
-    while(pos != 0){
+    while(pos != 0 && node != NULL){
         int num_elem = node->back - node->front - 1;
         int chk = pos - num_elem;
         if(chk >= 0){
@@ -160,7 +160,7 @@ int decode_pos(ULNode* lst, int pos,
 
     *ret_node = node;
     if(ret_idx){ *ret_idx = idx; }
-    return SUCCESS;
+    return node ? SUCCESS : FAILURE;
 }
 
 int get(ULNode* lst, int pos, Item* accessed)

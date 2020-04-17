@@ -207,10 +207,16 @@ TEST(positive_pos, insert){
     }
     print_list(lst,TRUE);
 
-    // decode_pos: fail case
+    // decode_pos: fail cases
+    //  negative pos
     ULNode* node = NULL; int idx;
     ASSERT_EQ(decode_pos(lst, -1, &node, &idx), FAILURE); 
     ASSERT_EQ(decode_pos(lst, -2432, &node, &idx), FAILURE); 
+    //  too big pos
+    ASSERT_EQ(decode_pos(lst, num_items - 1, &node, &idx), SUCCESS); 
+    ASSERT_EQ(decode_pos(lst, num_items, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, num_items + 1, &node, &idx), FAILURE); 
+    ASSERT_EQ(decode_pos(lst, num_items * 10, &node, &idx), FAILURE); 
 }
 
 //-------------------------------------------------------------------------------------
