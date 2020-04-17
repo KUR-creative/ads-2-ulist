@@ -24,14 +24,7 @@ int print_list(ULNode* lst)
 
 int init_list(ULNode** lst, int node_size)
 {
-    *lst = (ULNode*)malloc(
-        sizeof(ULNode) + sizeof(Item) * node_size);
-    ULNode* root = *lst;
-    root->front = -1;
-    root->back = 0;
-    root->max = node_size;
-    root->next = NULL;
-    return SUCCESS;
+    return new_node(lst, node_size, NULL);
 }
 
 int is_empty(ULNode* lst)
@@ -45,18 +38,12 @@ int insert(ULNode** lst, int pos, Item item)
     if(pos == 0){
         if((*lst)->front == -1){
             ULNode* tmp = *lst;
-            *lst = (ULNode*)malloc(
-                sizeof(ULNode) + sizeof(Item) * tmp->max);
-            (*lst)->front = -1;
-            (*lst)->back = 0;
-            (*lst)->max = tmp->max;
-            (*lst)->next = tmp;
-
-            (*lst)->items[(*lst)->back++] = item; 
+            new_node(lst, tmp->max, tmp);
+            add_back(*lst, item);
         }
     }
     else if(pos == -1){
-        (*lst)->items[(*lst)->back++] = item;
+        add_back(*lst, item);
         return SUCCESS;
     }
 }
@@ -80,6 +67,29 @@ int remove(ULNode** lst, int pos, Item* removed)
 {
     return SUCCESS;
 }
+
+static int new_node(
+    ULNode** pnode, int max, ULNode* next)
+{
+    *pnode = (ULNode*)malloc(
+        sizeof(ULNode) + sizeof(Item) * max);
+    (*pnode)->front = -1;
+    (*pnode)->back = 0;
+    (*pnode)->max = max;
+    (*pnode)->next = next;
+    return SUCCESS;
+}
+
+static int add_back(ULNode* node, Item item)
+{
+    if(node->back < node->max){
+        node->items[node->back++] = item;
+        return SUCCESS;
+    }
+    // check items overflow
+    return FAILURE;
+}
+
 
 /* 
 void print_item(const Item* item)
