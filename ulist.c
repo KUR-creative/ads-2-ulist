@@ -2,13 +2,24 @@
 #include <stdio.h>
 #include "ulist.h"
 
-int print_node(ULNode* node){
-    printf("top[%d] max[%d] ", node->top, node-> max);
-    printf("arr[");
-    for(int i = 0; i < node->top; i++){
+int print_node(ULNode* node)
+{
+    printf("front[%d] back[%d] max[%d] ", 
+        node->front, node->back, node-> max);
+    printf("arr[ ");
+    for(int i = 0; i < node->back; i++){
         printf("%d ", node->items[i]);
     }
-    printf("\b] next:%p \n", node->next);
+    printf("] next:%p \n", node->next);
+}
+
+int print_list(ULNode* lst)
+{
+    ULNode* cursor = lst;
+    while(cursor){
+        print_node(cursor);
+        cursor = cursor->next;
+    }
 }
 
 int init_list(ULNode** lst, int node_size)

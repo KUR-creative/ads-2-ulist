@@ -26,5 +26,6 @@ int remove(ULNode** lst, int pos, Item* removed);
 int is_empty(ULNode* lst);
 int get(ULNode* lst, int pos, Item* accessed);
 int print_node(ULNode* node);
+int print_list(ULNode* lst);
 
 #endif //_ULIST_H_
