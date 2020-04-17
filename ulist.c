@@ -45,6 +45,10 @@ int is_empty(ULNode* lst)
     );
 }
 
+static int has_space(ULNode* prev, ULNode* node, int idx)
+{
+}
+
 int insert(ULNode** lst, int pos, Item item)
 {
     if(pos == 0){
@@ -96,7 +100,7 @@ int remove(ULNode** lst, int pos, Item* removed)
             *removed = (*lst)->items[(*lst)->front + 1];
         }
 
-        int num_elem = (*lst)->back - (*lst)->front - 1;
+        int num_elem = num_items(*lst);
         if(num_elem > 1){
             (*lst)->front += 1;
         }else if(num_elem == 1){
@@ -120,7 +124,7 @@ int remove(ULNode** lst, int pos, Item* removed)
             *removed = tail->items[tail->back - 1];
         }
 
-        int num_elem = tail->back - tail->front - 1;
+        int num_elem = num_items(tail);
         if(num_elem > 1){
             tail->back -= 1;
         }else if(num_elem == 1){
@@ -157,7 +161,7 @@ int decode_pos(ULNode* lst, int pos,
     ULNode* prev = NULL;
     ULNode* node = lst;
     while(pos != 0 && node != NULL){
-        int num_elem = node->back - node->front - 1;
+        int num_elem = num_items(node);
         int chk = pos - num_elem;
         if(chk >= 0){
             prev = node;
@@ -170,9 +174,9 @@ int decode_pos(ULNode* lst, int pos,
     }
 
     if(ret_prev){ *ret_prev = prev; }
-    *ret_node = node;
-    if(ret_idx){ *ret_idx = idx; }
-    return node ? SUCCESS : FAILURE;
+    if(ret_node){ *ret_node = node; }
+    if(ret_idx) { *ret_idx = idx;   }
+    return (node && num_items(node)) ? SUCCESS : FAILURE;
 }
 
 int get(ULNode* lst, int pos, Item* accessed)
@@ -232,4 +236,9 @@ static int add_front(ULNode* node, Item item)
     }
     // check items overflow
     return FAILURE;
+}
+
+static int num_items(ULNode* node)
+{
+    return node->back - node->front - 1;
 }

@@ -38,4 +38,5 @@ int decode_pos(ULNode* lst, int pos,
 static int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
 static int add_front(ULNode* node, Item item);
+static int num_items(ULNode* node);
 #endif //_ULIST_H_

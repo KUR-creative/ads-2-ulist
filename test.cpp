@@ -173,7 +173,7 @@ TEST(get, 3_2_list){
     get(lst, 4, &accessed); ASSERT_EQ(accessed, 4);
 }
 
-TEST(get, DISABLED_more_than_1_node_size) {
+TEST(get, more_than_1_node_size) {
     int node_size = 4;
     ULNode* lst; init_list(&lst, node_size);
 
@@ -187,12 +187,12 @@ TEST(get, DISABLED_more_than_1_node_size) {
     }
 }
 
-TEST(get, DISABLED_incorrect_pos) {
+TEST(get, FAIL_when_get_node_from_empty_list) {
     int node_size = 4;
     ULNode* lst; init_list(&lst, node_size);
 
     Item accessed;
-    ASSERT_EQ(get(lst, 0, &accessed), FAILURE);
+    EXPECT_EQ(get(lst, 0, &accessed), FAILURE);
 }
 
 //-------------------------------------------------------------------------------------
