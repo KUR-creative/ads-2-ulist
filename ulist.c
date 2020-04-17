@@ -135,7 +135,8 @@ int remove(ULNode** lst, int pos, Item* removed)
     return SUCCESS;
 }
 
-int get(ULNode* lst, int pos, Item* accessed)
+static int decode_pos(ULNode* lst, int pos, 
+                      ULNode** ret_node, int* ret_idx)
 {
     // NOTE: pos is index, begin from 0!
     int idx = 0;
@@ -143,7 +144,6 @@ int get(ULNode* lst, int pos, Item* accessed)
     while(pos != 0){
         int num_elem = node->back - node->front - 1;
         int chk = pos - num_elem;
-        //printf("before pos[%d] num_elem[%d] node[%p] next[%p] chk[%d]\n", pos, num_elem, node, node->next, chk);
         if(chk >= 0){
             node = node->next;
             pos = chk; // = 0 then break
@@ -151,8 +151,18 @@ int get(ULNode* lst, int pos, Item* accessed)
             idx = pos;
             pos = 0;
         }
-        //printf("after  pos[%d] num_elem[%d] node[%p] next[%p] chk[%d]\n", pos, num_elem, node, node->next, chk);
     }
+
+    *ret_node = node;
+    if(ret_idx){ *ret_idx = idx; }
+    return SUCCESS;
+}
+
+int get(ULNode* lst, int pos, Item* accessed)
+{
+
+    int idx; ULNode* node = NULL;
+    decode_pos(lst, pos, &node, &idx);
 
     *accessed = node->items[idx + node->front + 1];
     return SUCCESS;

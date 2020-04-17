@@ -196,7 +196,7 @@ TEST(get, DISABLED_incorrect_pos) {
 }
 
 //-------------------------------------------------------------------------------------
-TEST(big, insert_front_remove_back){
+TEST(big, DISABLED_insert_front_remove_back){
     int node_size = 100;
     int num_items = 100000;
     ULNode* lst; init_list(&lst, node_size);
@@ -222,7 +222,7 @@ TEST(big, insert_front_remove_back){
     ASSERT_TRUE(is_empty(lst));
 }
 
-TEST(big, insert_back_remove_front){
+TEST(big, DISABLED_insert_back_remove_front){
     int node_size = 100;
     int num_items = 100000;
     ULNode* lst; init_list(&lst, node_size);
