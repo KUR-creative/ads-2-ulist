@@ -35,7 +35,7 @@ int init_list(ULNode** lst, int node_size)
 
 int is_empty(ULNode* lst)
 {
-    return (
+    return (lst == NULL) || (
         lst->next == NULL && 
         lst->back - 1 == lst->front 
     );
@@ -55,9 +55,7 @@ int insert(ULNode** lst, int pos, Item item)
     }
     else if(pos == -1){
         ULNode* tail = *lst;
-        while(tail->next){
-            tail = tail->next;
-        }
+        while(tail->next){ tail = tail->next; }
 
         if(tail->back == tail->max){
             ULNode* new_tail;
@@ -79,7 +77,20 @@ int remove(ULNode** lst, int pos, Item* removed)
     }
 
     if(pos == 0){
-        (*lst)->front += 1;
+        int num_elem = (*lst)->back - (*lst)->front - 1;
+        if(removed){
+            *removed = (*lst)->items[(*lst)->front + 1];
+        }
+        if(num_elem > 1){
+            (*lst)->front += 1;
+        }else if(num_elem == 1){
+            ULNode* next_node = (*lst)->next;
+            free(*lst);
+            *lst = next_node;
+        }else{
+            printf("We can't remove from empty node. FATAL ERROR");
+            exit(EXIT_FAILURE);
+        }
     }
     else if(pos == -1){
     }
@@ -107,6 +118,20 @@ int get(ULNode* lst, int pos, Item* accessed)
 
     *accessed = node->items[idx + node->front + 1];
     return SUCCESS;
+}
+
+// return value is number of nodes
+int get_tail(ULNode* lst, ULNode* tail)
+{
+    int num_nodes = 0;
+    if(lst){
+        tail = lst;
+        while(tail->next){
+            tail = tail->next;
+            num_nodes++;
+        }
+    }
+    return num_nodes;
 }
 
 static int new_node(ULNode** pnode, int max, ULNode* next)

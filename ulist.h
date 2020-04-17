@@ -31,6 +31,7 @@ int is_empty(ULNode* lst);
 int get(ULNode* lst, int pos, Item* accessed);
 int print_node(ULNode* node, int all);
 int print_list(ULNode* lst, int all);
+int get_tail(ULNode* lst, ULNode* tail);
 
 static int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
