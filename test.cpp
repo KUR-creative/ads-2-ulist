@@ -4,7 +4,7 @@
 #include "ulist.h"
 
 /*
-printf("%d %d %p \n", root->top, root->max, root->next);
+printf("%d %d %p \n", root->back, root->max, root->next);
 printf("[%p]\n", root);
 printf("[%p]\n", *lst);
 */
@@ -20,6 +20,70 @@ TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
     print_node(root);
 }
 
+TEST(is_empty, DISABLED_back_is_not_0_but_empty){
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+    insert(&lst, -1, 0); insert(&lst, -1, 1);
+    ASSERT_FALSE(is_empty(lst));
+
+    remove(&lst, 0, NULL); remove(&lst, 0, NULL);
+    ASSERT_TRUE(is_empty(lst));
+}
+
+TEST(insert, front_from_zero){
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+                    puts("--------");
+                    print_list(lst);
+    // insert front
+    for(int i = 0; i < 4; i++){ 
+        insert(&lst, 0, i); 
+                    printf("----%d----\n", i);
+                    print_list(lst);
+    }
+    Item accessed; 
+    get(lst, 0, &accessed); ASSERT_EQ(accessed, 3);
+    //get(lst, 1, &accessed); ASSERT_EQ(accessed, 2);
+    //get(lst, 2, &accessed); ASSERT_EQ(accessed, 1);
+    //get(lst, 3, &accessed); ASSERT_EQ(accessed, 0);
+}
+
+TEST(insert, back_from_zero){
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert front
+    for(int i = 0; i < 4; i++){ insert(&lst, -1, i); }
+    Item accessed; 
+    get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);
+    //get(lst, 1, &accessed); ASSERT_EQ(accessed, 1);
+    //get(lst, 2, &accessed); ASSERT_EQ(accessed, 2);
+    //get(lst, 3, &accessed); ASSERT_EQ(accessed, 3);
+}
+
+TEST(get, DISABLED_more_than_1_node_size) {
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+    for(int i = 0; i < node_size + 2; i++){
+        insert(&lst, -1, i);
+    }
+    for(int i = 0; i < node_size + 2; i++){
+        Item accessed;
+        get(lst, i, &accessed);
+        ASSERT_EQ(accessed, i);
+    }
+}
+
+TEST(get, DISABLED_incorrect_pos) {
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+    Item accessed;
+    ASSERT_EQ(get(lst, 0, &accessed), FAILURE);
+}
 /*
 TEST(test, print_item) {
     Item xyb = 1;

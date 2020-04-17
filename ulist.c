@@ -27,7 +27,8 @@ int init_list(ULNode** lst, int node_size)
     *lst = (ULNode*)malloc(
         sizeof(ULNode) + sizeof(Item) * node_size);
     ULNode* root = *lst;
-    root->top = 0;
+    root->front = -1;
+    root->back = 0;
     root->max = node_size;
     root->next = NULL;
     return SUCCESS;
@@ -35,15 +36,51 @@ int init_list(ULNode** lst, int node_size)
 
 int is_empty(ULNode* lst)
 {
-    return (lst->next == NULL && lst->top == 0);
+    return (lst->next == NULL && lst->back == 0);
 }
 
 int insert(ULNode** lst, int pos, Item item)
 {
-    ULNode* root = *lst;
-    root->items[root->top++] = item;
+    //print_node(*lst);
+    if(pos == 0){
+        if((*lst)->front == -1){
+            ULNode* tmp = *lst;
+            *lst = (ULNode*)malloc(
+                sizeof(ULNode) + sizeof(Item) * tmp->max);
+            (*lst)->front = -1;
+            (*lst)->back = 0;
+            (*lst)->max = tmp->max;
+            (*lst)->next = tmp;
+
+            (*lst)->items[(*lst)->back++] = item; 
+        }
+    }
+    else if(pos == -1){
+        (*lst)->items[(*lst)->back++] = item;
+        return SUCCESS;
+    }
+}
+
+int get(ULNode* lst, int pos, Item* accessed)
+{
+    int cursor = 0;
+    int idx = 0;
+    ULNode* node = lst;
+    while(cursor != pos){
+        int num_elem = node->back - node->front - 1;
+        cursor += num_elem;
+        node = node->next;
+    }
+
+    *accessed = node->items[idx];
     return SUCCESS;
 }
+
+int remove(ULNode** lst, int pos, Item* removed)
+{
+    return SUCCESS;
+}
+
 /* 
 void print_item(const Item* item)
 {

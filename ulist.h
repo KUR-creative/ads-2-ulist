@@ -13,10 +13,14 @@ typedef int Item;
 
 // singly linked list
 typedef struct ULNode {
-    int top; // 
+    int front;
+    int back; // 
     int max;
     struct ULNode* next;
     Item items[1]; 
+    // items [_ _ a b d e _ _ _]
+    //          ^         ^     ^
+    //        front      back  max
 } ULNode;
 
 int init_list(ULNode** lst, int node_size);
