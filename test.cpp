@@ -17,17 +17,30 @@ TEST(is_empty, top_is_minus1_and_no_next_then_empty) {
     Item item = 42;
     insert(&root, 0, item);
     ASSERT_FALSE(is_empty(root));
-    print_node(root);
+    print_node(root, FALSE);
 }
 
-TEST(is_empty, DISABLED_back_is_not_0_but_empty){
+TEST(remove, fail_cases){
     int node_size = 4;
     ULNode* lst; init_list(&lst, node_size);
 
-    insert(&lst, -1, 0); insert(&lst, -1, 1);
+    ASSERT_EQ(remove(&lst, 0, NULL), FAILURE);
+}
+
+TEST(is_empty, back_is_not_0_but_empty){
+    int node_size = 4;
+    ULNode* lst; init_list(&lst, node_size);
+
+    insert(&lst, -1, 0); 
+    print_list(lst, FALSE);
+    insert(&lst, -1, 1);
+    print_list(lst, FALSE);
     ASSERT_FALSE(is_empty(lst));
 
-    remove(&lst, 0, NULL); remove(&lst, 0, NULL);
+    remove(&lst, 0, NULL); 
+    print_list(lst, FALSE);
+    remove(&lst, 0, NULL);
+    print_list(lst, FALSE);
     ASSERT_TRUE(is_empty(lst));
 }
 
@@ -36,12 +49,10 @@ TEST(insert, front_from_zero){
     ULNode* lst; init_list(&lst, node_size);
 
     // insert front
-                    puts("--------");
-                    print_list(lst);
+                    //puts("--------"); print_list(lst, FALSE);
     for(int i = 0; i < 4; i++){ 
         insert(&lst, 0, i); 
-                    printf("----%d----\n", i);
-                    print_list(lst);
+                    //printf("----%d----\n", i); print_list(lst, FALSE);
     }
     Item accessed; 
     get(lst, 0, &accessed); ASSERT_EQ(accessed, 3);
@@ -55,12 +66,10 @@ TEST(insert, back_from_zero){
     ULNode* lst; init_list(&lst, node_size);
 
     // insert front
-                    puts("--------");
-                    print_list(lst);
+                    //puts("--------");  print_list(lst, FALSE);
     for(int i = 0; i < 4; i++){ 
         insert(&lst, -1, i);
-                    printf("----%d----\n", i);
-                    print_list(lst);
+                    //printf("----%d----\n", i); print_list(lst, FALSE);
     }
     Item accessed; 
     get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);
@@ -82,7 +91,7 @@ TEST(get, 3_2_list){
     insert(&lst2, -1, 4);
     // link
     lst->next = lst2;
-    print_list(lst);
+    print_list(lst, FALSE);
 
     Item accessed; 
     get(lst, 0, &accessed); ASSERT_EQ(accessed, 0);

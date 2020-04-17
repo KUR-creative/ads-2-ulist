@@ -2,23 +2,24 @@
 #include <stdio.h>
 #include "ulist.h"
 
-int print_node(ULNode* node)
+int print_node(ULNode* node, int all)
 {
     printf("%p: ", node);
     printf("front[%d] back[%d] max[%d] ", 
         node->front, node->back, node-> max);
     printf("arr[ ");
-    for(int i = 0; i < node->back; i++){
+    int beg = (all ? 0 : node->front + 1);
+    for(int i = beg; i < node->back; i++){
         printf("%d ", node->items[i]);
     }
     printf("] next:%p \n", node->next);
 }
 
-int print_list(ULNode* lst)
+int print_list(ULNode* lst, int all)
 {
     ULNode* cursor = lst;
     while(cursor){
-        print_node(cursor);
+        print_node(cursor, all);
         cursor = cursor->next;
     }
 }
@@ -30,12 +31,15 @@ int init_list(ULNode** lst, int node_size)
 
 int is_empty(ULNode* lst)
 {
-    return (lst->next == NULL && lst->back == 0);
+    return (
+        lst->next == NULL && 
+        lst->back - 1 == lst->front 
+    );
 }
 
 int insert(ULNode** lst, int pos, Item item)
 {
-    //print_node(*lst);
+    //print_node(*lst, TRUE);
     if(pos == 0){
         if((*lst)->front == -1){
             ULNode* tmp = *lst;
@@ -47,6 +51,20 @@ int insert(ULNode** lst, int pos, Item item)
         add_back(*lst, item);
         return SUCCESS;
     }
+}
+
+int remove(ULNode** lst, int pos, Item* removed)
+{
+    if(is_empty(*lst)){
+        return FAILURE;
+    }
+
+    if(pos == 0){
+        (*lst)->front += 1;
+    }
+    else if(pos == -1){
+    }
+    return SUCCESS;
 }
 
 int get(ULNode* lst, int pos, Item* accessed)
@@ -72,12 +90,7 @@ int get(ULNode* lst, int pos, Item* accessed)
     return SUCCESS;
 }
 
-int remove(ULNode** lst, int pos, Item* removed)
-{
-    return SUCCESS;
-}
-
-int new_node(ULNode** pnode, int max, ULNode* next)
+static int new_node(ULNode** pnode, int max, ULNode* next)
 {
     *pnode = (ULNode*)malloc(
         sizeof(ULNode) + sizeof(Item) * max);

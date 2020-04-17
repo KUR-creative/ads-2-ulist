@@ -29,10 +29,10 @@ int remove(ULNode** lst, int pos, Item* removed);
 
 int is_empty(ULNode* lst);
 int get(ULNode* lst, int pos, Item* accessed);
-int print_node(ULNode* node);
-int print_list(ULNode* lst);
+int print_node(ULNode* node, int all);
+int print_list(ULNode* lst, int all);
 
-int new_node(ULNode** pnode, int max, ULNode* next);
+static int new_node(ULNode** pnode, int max, ULNode* next);
 static int add_back(ULNode* node, Item item);
 
 #endif //_ULIST_H_
