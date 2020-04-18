@@ -77,41 +77,43 @@ def expr1():
 #expr2: diff data size, fixed node sizes
 def expr2():
     def fixed_node_size_diff_data(
-            num_data = int(1e4),
+            max_num_data = int(1e4),
             num_expr = 30,
             #max_node_size = int(2e4)
-            max_node_size = int(100)
+            node_size = int(100)
         ):
-        block = max_node_size // num_expr 
+        block = max_num_data // num_expr 
         exprs = list(tqdm(
             map(expr_result, 
-                F.repeat(num_data, num_expr),
-                [1] + [n * block for n in range(1,num_expr)]),
+                [n * block for n in range(1,num_expr)],
+                F.repeat(node_size, num_expr)),
                 #[n * block for n in range(1,num_expr)]),
             total = num_expr
         ))
-        pprint(exprs)
+        #pprint(exprs)
         return exprs
 
-    num_data = int(1e4)
-    exprs = fixed_data_diff_node_size(num_data = num_data)
-    with open('fix_ns_%d_diff_nd.yml' % (num_data,), 'w') as f:
+    node_size = int(100)
+    exprs = fixed_node_size_diff_data(
+        max_num_data=int(1e5),
+        node_size=node_size)
+    with open('fix_ns_%d_diff_nd.yml' % (node_size,), 'w') as f:
         yaml.dump(F.join_with(list, exprs), f)
-    with open('fix_ns_%d_diff_nd.yml' % (num_data,)) as f:
+    with open('fix_ns_%d_diff_nd.yml' % (node_size,)) as f:
         result_dic = yaml.safe_load(f)
 
     pprint(result_dic)
-    x_key = 'node.size'
-    y_keys = F.lremove({x_key, 'data.num'}, result_dic.keys())
-    y_keys = F.lfilter(lambda s: 'ul' in s, y_keys)
+    x_key = 'data.num'
+    y_keys = F.lremove({x_key, 'node.size'}, result_dic.keys())
+    #y_keys = F.lfilter(lambda s: 'ul' in s, y_keys)
     print(y_keys)
 
     xs = result_dic[x_key]
     print(xs)
     for key in y_keys:
         plt.plot(xs, result_dic[key], label=key,
-                 marker='x' if 'insert' in key else '.',
-                 linestyle='-' if 'insert' in key else '--')
+                 marker='.' if 'ul' in key else 'x',
+                 linestyle='--' if 'ul' in key else '-')
      
     plt.xlabel('node size')
     plt.ylabel('milli seconds')
@@ -119,4 +121,4 @@ def expr2():
     plt.show()
 
 expr1()
-#expr2()
+expr2()
