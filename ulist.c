@@ -100,10 +100,10 @@ int remove(ULNode** lst, int pos, Item* removed)
         }
 
         int num_elem = num_items(*lst);
-        if(num_elem > 1){
+        ULNode* next_node = (*lst)->next;
+        if(next_node == NULL || num_elem > 1){
             (*lst)->front += 1;
         }else if(num_elem == 1){
-            ULNode* next_node = (*lst)->next;
             free(*lst);
             *lst = next_node;
         }else{
@@ -128,11 +128,12 @@ int remove(ULNode** lst, int pos, Item* removed)
         if(num_elem > 1){
             tail->back -= 1;
         }else if(num_elem == 1){
-            free(tail);
             if(prev){ 
+                free(tail);
                 prev->next = NULL; 
             }else{
-                *lst = NULL; // empty list
+                tail->back -= 1; // empty list
+                //*lst = NULL; 
             }
         }else{
             print_list(*lst, TRUE);

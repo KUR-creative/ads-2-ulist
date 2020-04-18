@@ -39,6 +39,26 @@ TEST(is_empty, back_is_not_0_but_empty){
 }
 
 //-------------------------------------------------------
+TEST(insert, to_all_removed_list){
+    int node_size = 6;
+    int num_items = 10;
+    ULNode* lst; init_list(&lst, node_size);
+
+    // insert
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, 0, i);
+    }
+    // remove
+    for(int i = 0; i < num_items; i++){ 
+        remove(&lst, -1, NULL);
+    }
+    ASSERT_TRUE(is_empty(lst));
+    // insert
+    for(int i = 0; i < num_items; i++){ 
+        insert(&lst, 0, i);
+    }
+}
+
 TEST(insert, front_from_zero){
     int node_size = 6;
     ULNode* lst; init_list(&lst, node_size);
