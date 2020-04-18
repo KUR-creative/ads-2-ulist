@@ -1,4 +1,4 @@
-// map <F4> :wa<CR>:!clear;rm test;g++ -g test.cpp ulist.c -o test -lgtest;./test<CR>
+// map <F8> :wa<CR>:!clear;rm test;g++ -g test.cpp ulist.c -o test -lgtest;./test<CR>
 
 #include <gtest/gtest.h>
 #include "ulist.h"
