@@ -52,9 +52,9 @@ static int has_space(ULNode* prev, ULNode* node, int idx)
 int insert(ULNode** lst, int pos, Item item)
 {
     if(pos == 0){
-        if((*lst)->front == -1){
-            ULNode* tmp = *lst;
-            new_node(lst, tmp->max, tmp);
+        if(full_front(*lst)){
+            ULNode* old_head = *lst;
+            new_node(lst, old_head->max, old_head);
             return add_front(*lst, item);
         }else{
             return add_front(*lst, item);
@@ -77,7 +77,6 @@ int insert(ULNode** lst, int pos, Item item)
         // if empty slot
         ULNode* prev; ULNode* node; int idx;
         decode_pos((*lst), pos, &prev, &node, &idx);
-        printf("[%d] \n", idx); 
         print_node(prev, TRUE);print_node(node, TRUE);
         // else
     }
@@ -108,6 +107,7 @@ int remove(ULNode** lst, int pos, Item* removed)
             free(*lst);
             *lst = next_node;
         }else{
+            print_list(*lst, TRUE);
             printf("We can't remove from empty node. FATAL ERROR");
             exit(EXIT_FAILURE);
         }
@@ -135,6 +135,7 @@ int remove(ULNode** lst, int pos, Item* removed)
                 *lst = NULL; // empty list
             }
         }else{
+            print_list(*lst, TRUE);
             printf("We can't remove from empty node. FATAL ERROR");
             exit(EXIT_FAILURE);
         }
@@ -230,6 +231,12 @@ static int add_back(ULNode* node, Item item)
 
 static int add_front(ULNode* node, Item item)
 {
+    if(node->max == 1){
+        // If node size = 1, can't insert to front.
+        // Because front is always -1 when node size = 1.
+        return add_back(node, item);
+    }
+
     if(-1 < node->front){
         node->items[node->front--] = item;
         return SUCCESS;
@@ -241,4 +248,11 @@ static int add_front(ULNode* node, Item item)
 static int num_items(ULNode* node)
 {
     return node->back - node->front - 1;
+}
+
+static int full_front(ULNode* node)
+{
+    return node->max == 1 ? 
+        num_items(node) == 1 : 
+        node->front == -1;
 }
