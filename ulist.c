@@ -78,14 +78,13 @@ int insert(ULNode** lst, int pos, Item item)
         ULNode* prev; ULNode* node; int idx;
         decode_pos((*lst), pos, &prev, &node, &idx);
         print_node(prev, TRUE);print_node(node, TRUE);
+        // TODO: implement!
         // else
     }
     else{
         puts("Doesn't support negative pos (except -1)");
         return FAILURE;
     }
-
-    // TODO: if pos is not 0 nor -1?
 }
 
 int remove(ULNode** lst, int pos, Item* removed)
@@ -133,7 +132,6 @@ int remove(ULNode** lst, int pos, Item* removed)
                 prev->next = NULL; 
             }else{
                 tail->back -= 1; // empty list
-                //*lst = NULL; 
             }
         }else{
             print_list(*lst, TRUE);
@@ -142,6 +140,7 @@ int remove(ULNode** lst, int pos, Item* removed)
         }
     }
     else if(pos > 0){
+        // TODO: implement!
     }
     else{
         puts("Doesn't support negative pos (except -1)");
@@ -183,7 +182,6 @@ int decode_pos(ULNode* lst, int pos,
 
 int get(ULNode* lst, int pos, Item* accessed)
 {
-
     ULNode* node = NULL; int idx; 
     int chk = decode_pos(lst, pos, NULL, &node, &idx);
     if(chk == FAILURE){
@@ -222,11 +220,11 @@ static int new_node(ULNode** pnode, int max, ULNode* next)
 
 static int add_back(ULNode* node, Item item)
 {
+    // check items overflow
     if(node->back < node->max){
         node->items[node->back++] = item;
         return SUCCESS;
     }
-    // check items overflow
     return FAILURE;
 }
 
@@ -238,11 +236,11 @@ static int add_front(ULNode* node, Item item)
         return add_back(node, item);
     }
 
+    // check items overflow
     if(-1 < node->front){
         node->items[node->front--] = item;
         return SUCCESS;
     }
-    // check items overflow
     return FAILURE;
 }
 
